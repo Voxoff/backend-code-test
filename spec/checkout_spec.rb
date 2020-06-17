@@ -3,7 +3,7 @@ require 'checkout'
 
 RSpec.describe Checkout do
   let(:checkout) { Checkout.new(prices: pricing_rules, discounts: discount_database) }
-  let(:pricing_rules) {
+  let(:pricing_rules) do
     {
       apple: 10,
       orange: 20,
@@ -12,8 +12,9 @@ RSpec.describe Checkout do
       pineapple: 100,
       mango: 200
     }
-  }
-  let(:discount_database) {
+  end
+
+  let(:discount_database) do
     {
       apple: :buy_two_get_one_free,
       pear: :buy_two_get_one_free,
@@ -21,11 +22,10 @@ RSpec.describe Checkout do
       banana: :half_price,
       pineapple: :half_price_off_first
     }
-  }
+  end
 
   describe '#total' do
     subject(:total) { checkout.total }
-
 
     context 'when no offers apply' do
       before do
