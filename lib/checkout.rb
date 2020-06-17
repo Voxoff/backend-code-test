@@ -4,7 +4,7 @@ class Checkout
 
   def initialize(prices)
     @prices = prices
-    @basket = Array.new
+    @basket = []
   end
 
   def scan(item)
