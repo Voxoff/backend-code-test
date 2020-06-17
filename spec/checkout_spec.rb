@@ -2,20 +2,21 @@ require 'spec_helper'
 require 'checkout'
 
 RSpec.describe Checkout do
+  let(:checkout) { Checkout.new(pricing_rules) }
+  let(:pricing_rules) {
+    {
+      apple: 10,
+      orange: 20,
+      pear: 15,
+      banana: 30,
+      pineapple: 100,
+      mango: 200
+    }
+  }
+
   describe '#total' do
     subject(:total) { checkout.total }
 
-    let(:checkout) { Checkout.new(pricing_rules) }
-    let(:pricing_rules) {
-      {
-        apple: 10,
-        orange: 20,
-        pear: 15,
-        banana: 30,
-        pineapple: 100,
-        mango: 200
-      }
-    }
 
     context 'when no offers apply' do
       before do
@@ -99,6 +100,54 @@ RSpec.describe Checkout do
       it 'returns the discounted price for the basket' do
         pending 'You need to write the code to satisfy this test'
         expect(total).to eq(600)
+      end
+    end
+  end
+
+  describe '#calculate_discount' do
+    subject(:calculate_discount) { checkout.calculate_discount(item, count)}
+
+    context 'when no offers apply' do
+      let(:item) { :apple }
+      let(:count) { 1 }
+      it 'returns the base price for the basket' do
+        expect(calculate_discount).to eq(0)
+      end
+    end
+
+    context 'when a half price offer applies on pineapples restricted to 1 per customer' do
+      let(:item) { :pineapple }
+      let(:count) { 2 }
+
+      it 'returns the discounted price for the basket' do
+        expect(calculate_discount).to eq(50)
+      end
+    end
+
+    context 'when a half price offer applies on bananas' do
+      let(:item) { :banana }
+      let(:count) { 2 }
+
+      it 'returns the discounted price for the basket' do
+        expect(calculate_discount).to eq(30)
+      end
+    end
+
+    context 'when a two for 1 applies on apples' do
+      let(:item) { :apple }
+      let(:count) { 2 }
+
+      it 'returns the discounted price for the basket' do
+        expect(calculate_discount).to eq(10)
+      end
+    end
+
+    context 'when a two for 1 applies on pears' do
+      let(:item) { :pear }
+      let(:count) { 2 }
+
+      it 'returns the discounted price for the basket' do
+        expect(calculate_discount).to eq(15)
       end
     end
   end
