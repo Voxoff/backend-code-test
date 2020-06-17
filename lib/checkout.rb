@@ -1,10 +1,12 @@
+require_relative './discount'
 class Checkout
-  attr_reader :prices, :basket
-  private :prices, :basket
+  attr_reader :prices, :basket, :discounts
+  private :prices, :basket, :discounts
 
-  def initialize(prices)
+  def initialize(prices, discounts)
     @prices = prices
     @basket = []
+    @discounts = Discount.new(discounts: discounts)
   end
 
   def scan(item)
@@ -17,9 +19,7 @@ class Checkout
     basket.tally.each do |item, count|
       price = prices.fetch(item)
       total += price * count
-      if [:pineapple, :banana, :apple, :pear, :mango].include?(item)
-        total -= calculate_discount(item, count, price)
-      end
+      total -= calculate_discount(item, count, price)
     end
 
     total
@@ -28,13 +28,15 @@ class Checkout
   private
 
   def calculate_discount(item, count, price)
-    if item == :pineapple
+    discount_type = @discounts.find_by_item(item)
+
+    if discount_type == :half_price_off_first
       discount = price / 2
-    elsif item == :banana
+    elsif discount_type == :half_price
       discount = (price / 2) * count
-    elsif count.even? && item == :apple || item == :pear
+    elsif discount_type == :buy_two_get_one_free
       discount = price * (count / 2)
-    elsif item == :mango && count >= 3
+    elsif discount_type == :buy_three_get_one_free
       discount = price * (count / 3)
     end
     discount || 0

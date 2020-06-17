@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'checkout'
 
 RSpec.describe Checkout do
-  let(:checkout) { Checkout.new(pricing_rules) }
+  let(:checkout) { Checkout.new(pricing_rules, discount_database) }
   let(:pricing_rules) {
     {
       apple: 10,
@@ -11,6 +11,15 @@ RSpec.describe Checkout do
       banana: 30,
       pineapple: 100,
       mango: 200
+    }
+  }
+  let(:discount_database) {
+    {
+      apple: :buy_two_get_one_free,
+      pear: :buy_two_get_one_free,
+      mango: :buy_three_get_one_free,
+      banana: :half_price,
+      pineapple: :half_price_off_first
     }
   }
 
