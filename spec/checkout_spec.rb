@@ -98,7 +98,6 @@ RSpec.describe Checkout do
       end
 
       it 'returns the discounted price for the basket' do
-        pending 'You need to write the code to satisfy this test'
         expect(total).to eq(600)
       end
     end
@@ -158,6 +157,17 @@ RSpec.describe Checkout do
 
       it 'returns the discounted price for the basket' do
         expect(calculate_discount).to eq(15)
+      end
+    end
+
+    context 'when a three for 1 applies on pears' do
+      let(:item) { :mango }
+      let(:count) { 7 }
+      let(:price) { pricing_rules[item]}
+
+
+      it 'returns the discounted price for the basket' do
+        expect(calculate_discount).to eq(400)
       end
     end
   end
