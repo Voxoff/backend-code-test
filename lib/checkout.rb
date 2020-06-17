@@ -1,9 +1,10 @@
 class Checkout
-  attr_reader :prices
-  private :prices
+  attr_reader :prices, :basket
+  private :prices, :basket
 
   def initialize(prices)
     @prices = prices
+    @basket = Array.new
   end
 
   def scan(item)
@@ -33,11 +34,5 @@ class Checkout
     end
 
     total
-  end
-
-  private
-
-  def basket
-    @basket ||= Array.new
   end
 end
