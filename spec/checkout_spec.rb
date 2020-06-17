@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'checkout'
 
 RSpec.describe Checkout do
-  let(:checkout) { Checkout.new(pricing_rules, discount_database) }
+  let(:checkout) { Checkout.new(prices: pricing_rules, discounts: discount_database) }
   let(:pricing_rules) {
     {
       apple: 10,

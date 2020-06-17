@@ -3,7 +3,7 @@ class Checkout
   attr_reader :prices, :basket, :discounts
   private :prices, :basket, :discounts
 
-  def initialize(prices, discounts)
+  def initialize(prices:, discounts:)
     @prices = prices
     @basket = []
     @discounts = Discount.new(discounts: discounts)
