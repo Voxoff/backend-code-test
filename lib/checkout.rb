@@ -14,9 +14,7 @@ class Checkout
   def total
     total = 0
 
-    basket_tally = basket.tally
-
-    basket_tally.each do |item, count|
+    basket.tally.each do |item, count|
       total += prices.fetch(item) * count
       if [:pineapple, :banana, :apple, :pear].include?(item)
         total -= calculate_discount(item, count)
