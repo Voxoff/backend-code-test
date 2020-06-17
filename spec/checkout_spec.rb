@@ -105,7 +105,7 @@ RSpec.describe Checkout do
   end
 
   describe '#calculate_discount' do
-    subject(:calculate_discount) { checkout.calculate_discount(item, count, price)}
+    subject(:calculate_discount) { checkout.send(:calculate_discount, item, count, price)}
 
     context 'when no offers apply' do
       let(:item) { :apple }

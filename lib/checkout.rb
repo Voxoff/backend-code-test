@@ -25,6 +25,8 @@ class Checkout
     total
   end
 
+  private
+
   def calculate_discount(item, count, price)
     if item == :pineapple
       discount = price / 2
