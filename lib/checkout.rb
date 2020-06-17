@@ -15,22 +15,23 @@ class Checkout
     total = 0
 
     basket.tally.each do |item, count|
-      total += prices.fetch(item) * count
+      price = prices.fetch(item)
+      total += price * count
       if [:pineapple, :banana, :apple, :pear].include?(item)
-        total -= calculate_discount(item, count)
+        total -= calculate_discount(item, count, price)
       end
     end
 
     total
   end
 
-  def calculate_discount(item, count)
+  def calculate_discount(item, count, price)
     if item == :pineapple
-      discount = (prices.fetch(item) / 2)
+      discount = price / 2
     elsif item == :banana
-      discount = (prices.fetch(item) / 2) * count
+      discount = (price / 2) * count
     elsif count.even? && item == :apple || item == :pear
-      discount = prices.fetch(item) * (count / 2)
+      discount = price * (count / 2)
     end
     discount || 0
   end

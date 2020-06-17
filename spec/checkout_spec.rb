@@ -105,11 +105,13 @@ RSpec.describe Checkout do
   end
 
   describe '#calculate_discount' do
-    subject(:calculate_discount) { checkout.calculate_discount(item, count)}
+    subject(:calculate_discount) { checkout.calculate_discount(item, count, price)}
 
     context 'when no offers apply' do
       let(:item) { :apple }
       let(:count) { 1 }
+      let(:price) { pricing_rules[item]}
+
       it 'returns the base price for the basket' do
         expect(calculate_discount).to eq(0)
       end
@@ -118,6 +120,8 @@ RSpec.describe Checkout do
     context 'when a half price offer applies on pineapples restricted to 1 per customer' do
       let(:item) { :pineapple }
       let(:count) { 2 }
+      let(:price) { pricing_rules[item]}
+
 
       it 'returns the discounted price for the basket' do
         expect(calculate_discount).to eq(50)
@@ -127,6 +131,8 @@ RSpec.describe Checkout do
     context 'when a half price offer applies on bananas' do
       let(:item) { :banana }
       let(:count) { 2 }
+      let(:price) { pricing_rules[item]}
+
 
       it 'returns the discounted price for the basket' do
         expect(calculate_discount).to eq(30)
@@ -136,6 +142,8 @@ RSpec.describe Checkout do
     context 'when a two for 1 applies on apples' do
       let(:item) { :apple }
       let(:count) { 2 }
+      let(:price) { pricing_rules[item]}
+
 
       it 'returns the discounted price for the basket' do
         expect(calculate_discount).to eq(10)
@@ -145,6 +153,8 @@ RSpec.describe Checkout do
     context 'when a two for 1 applies on pears' do
       let(:item) { :pear }
       let(:count) { 2 }
+      let(:price) { pricing_rules[item]}
+
 
       it 'returns the discounted price for the basket' do
         expect(calculate_discount).to eq(15)
